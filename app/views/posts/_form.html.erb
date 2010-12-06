@@ -1,0 +1,40 @@
+
+<% @post.tags.build %>
+
+<%= form_for(@post) do |post_form| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field">
+    <%= post_form.label :title %><br />
+    <%= post_form.text_field :title %>
+  </div>
+  <div class="field">
+    <%= post_form.label :description %><br />
+    <%= post_form.text_area :description %>
+  </div>
+  
+  <p>
+   <%= post_form.label :user_id %><br />
+   <%= post_form.collection_select(:user_id, User.find(:all), :id, :name, {:prompt => true}) %> </p>
+   </p>
+   
+   <h2>Tags</h2>
+  <%= render :partial => 'tags/form',
+             :locals => {:form => post_form} %>
+  
+  
+  <div class="actions">
+    <%= post_form.submit  %>
+  </div>
+<% end %>
+
